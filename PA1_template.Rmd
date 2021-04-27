@@ -1,8 +1,12 @@
-# Reproducible Research Assignment 1
 
-This document walks the user through my assignment for Reproducible Research.
+# "Reproducible Research: Peer Assessment 1"
 
-## Loading packages and activity data needed for the assignment
+```{r global_options, echo=FALSE}
+knitr::opts_chunk$set(fig.path='Figs/')
+```
+
+## Loading and preprocessing the data
+
 ```{r, echo =TRUE}
 library(dplyr)
 
@@ -10,11 +14,9 @@ activity <- read.csv("activity.csv",header = TRUE)
 activity$date <- as.Date(activity$date,"%Y-%m-%d")
 ```
 
-## Results
+## What is mean total number of steps taken per day?
 
-### Part 1
-
-##### Total Number of Steps Taken Each Day
+### Histogram
 
 ```{r}
 
@@ -25,19 +27,21 @@ hist(activity_daily, xlab= "Total Daily Steps",
 
 ```
 
-##### Mean and Median Daily Steps
+### Mean and Median
 
 ```{r}
 mean_activity <- mean(activity_daily, na.rm = TRUE)
 median_activity <- median(activity_daily, na.rm = TRUE)
 
 ```
+
 * Mean: `r mean_activity`
 * Median:  `r median_activity`
 
-### Part 2
 
-##### Average Daily Activity Pattern
+## What is the average daily activity pattern?
+
+### Time Series Plot
 
 ```{r}
 avg_act<- activity %>% group_by(interval) %>% 
@@ -47,24 +51,26 @@ with(avg_act, plot(interval,avg_steps,xlab= "Interval",
                    ylab= "Average Steps",type="l"))
 ```
 
-##### Time Interval with Most Steps
+### Interval with Maximum Steps
 
 ```{r}
 maximum_steps <- avg_act[which.max(avg_act$avg_steps),]
+max_interval <- maximum_steps[1]
 ```
 
-* Most Steps at: `r maximum_steps`
+* Most Steps at: `r max_interval`
 
-### Part 3
+## Imputing missing values
 
-##### Total Missing Values
+### Total Missing Values
 
 ```{r}
 missing_values <- sum(is.na(activity$steps))
 ```
 * Total Missing Values : `r missing_values`
 
-##### Fill in Missing Values in New Data Frame
+### Fill in missing values with interval mean
+
 ```{r}
 activity_filled <- activity
 
@@ -76,7 +82,8 @@ avg_int <- tapply(activity_filled$steps, activity_filled$interval,
 activity_filled$steps[NAs]<- avg_int[as.character(activity_filled$int[NAs])]
 ```
 
-##### Histogram, Median, and Mean of Total Steps Taken with Filled Data Frame
+### Histogram, Median, and Mean of Total Steps Taken with Filled Data Frame
+
 ```{r}
 full_steps <- activity_filled %>% filter(!is.na(steps)) %>% 
   group_by(date) %>%
@@ -91,9 +98,9 @@ median_steps <- median(full_steps$steps, na.rm = TRUE)
 * Imputed Mean: `r mean_steps`
 * Imputed Median: `r median_steps`
 
-### Part 4
+## Are there differences in activity patterns between weekdays and weekends?
 
-##### Weekday/Weekend Factor Variable
+### Weekday/Weekend Variable
 
 ```{r}
 activity_filled <- mutate(activity_filled, 
@@ -103,7 +110,7 @@ activity_filled$day_type <- as.factor(activity_filled$day_type)
 
 ```
 
-##### Time Series Panel Plot
+### Panel Plot
 
 ```{r}
 weekday_steps <- activity_filled %>% 
