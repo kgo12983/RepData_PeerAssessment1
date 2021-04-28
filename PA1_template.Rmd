@@ -19,7 +19,7 @@ activity$date <- as.Date(activity$date,"%Y-%m-%d")
 
 ### Histogram
 
-```{r}
+```{r echo =TRUE}
 
 activity_daily <- tapply(activity$steps, activity$date, sum)
 
@@ -44,7 +44,7 @@ median_activity <- median(activity_daily, na.rm = TRUE)
 
 ### Time Series Plot
 
-```{r}
+```{r echo =TRUE}
 avg_act<- activity %>% group_by(interval) %>% 
   summarise(avg_steps=mean(steps, na.rm=TRUE))
 
@@ -85,7 +85,7 @@ activity_filled$steps[NAs]<- avg_int[as.character(activity_filled$int[NAs])]
 
 ### Histogram, Median, and Mean of Total Steps Taken with Filled Data Frame
 
-```{r}
+```{r echo =TRUE}
 full_steps <- activity_filled %>% filter(!is.na(steps)) %>% 
   group_by(date) %>%
   summarize(steps = sum(steps))
@@ -103,7 +103,7 @@ median_steps <- median(full_steps$steps, na.rm = TRUE)
 
 ### Weekday/Weekend Variable
 
-```{r}
+```{r echo =TRUE}
 activity_filled <- mutate(activity_filled, 
                         day_type = ifelse(weekdays(activity_filled$date)=="Saturday"|
                                             weekdays(activity_filled$date)=="Sunday","weekend","weekday"))
@@ -113,7 +113,7 @@ activity_filled$day_type <- as.factor(activity_filled$day_type)
 
 ### Panel Plot
 
-```{r}
+```{r echo =TRUE}
 weekday_steps <- activity_filled %>% 
   filter(!is.na(steps) & day_type=="weekday") %>% 
   group_by(interval) %>%

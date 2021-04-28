@@ -208,8 +208,26 @@ hr {
 <h2>Loading and preprocessing the data</h2>
 
 <pre><code class="r">library(dplyr)
+</code></pre>
 
-activity &lt;- read.csv(&quot;activity.csv&quot;,header = TRUE)
+<pre><code>## Warning: package &#39;dplyr&#39; was built under R version 4.0.4
+</code></pre>
+
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;
+</code></pre>
+
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag
+</code></pre>
+
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union
+</code></pre>
+
+<pre><code class="r">activity &lt;- read.csv(&quot;activity.csv&quot;,header = TRUE)
 activity$date &lt;- as.Date(activity$date,&quot;%Y-%m-%d&quot;)
 </code></pre>
 

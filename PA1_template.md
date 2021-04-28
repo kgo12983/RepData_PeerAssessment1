@@ -9,7 +9,30 @@
 
 ```r
 library(dplyr)
+```
 
+```
+## Warning: package 'dplyr' was built under R version 4.0.4
+```
+
+```
+## 
+## Attaching package: 'dplyr'
+```
+
+```
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+```
+
+```
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+```
+
+```r
 activity <- read.csv("activity.csv",header = TRUE)
 activity$date <- as.Date(activity$date,"%Y-%m-%d")
 ```
